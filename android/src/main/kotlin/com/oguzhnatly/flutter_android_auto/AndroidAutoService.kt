@@ -30,7 +30,12 @@ class AndroidAutoService : CarAppService() {
     }
 
 
-    override fun createHostValidator() = HostValidator.ALLOW_ALL_HOSTS_VALIDATOR
+    // Always validate signatures, including debug builds. The AndroidX list
+    // contains known host package/certificate pairs; no arbitrary host bypass.
+    override fun createHostValidator(): HostValidator =
+        HostValidator.Builder(this)
+            .addAllowedHosts(androidx.car.app.R.array.hosts_allowlist_sample)
+            .build()
 
     override fun onCreateSession(): Session {
         session = AndroidAutoSession()

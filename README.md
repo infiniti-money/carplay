@@ -488,7 +488,7 @@ class MainActivity : FlutterActivity() {
 
 The car service starts and caches an engine with the default Dart entry point when no cached engine exists. If the phone activity starts first, its engine is cached for the service to reuse. Initialize car-facing application state from app startup, not from a phone-only button or navigation route. Submit Android roots when the connection listener reports `connected`; if a root was prepared earlier, submit it again so native tabs and raster artwork are rebuilt against the live car context.
 
-**Host validation:** the bundled `AndroidAutoService` currently uses `HostValidator.ALLOW_ALL_HOSTS_VALIDATOR`. That is permissive, not a production host allowlist. Review Google's [host-validation guidance](https://developer.android.com/reference/androidx/car/app/validation/HostValidator) and your service configuration before distribution. This package does not currently expose a Dart host-validator configuration API.
+**Host validation:** the bundled service now uses AndroidX `HostValidator.Builder` with its certificate/package allowlist (`hosts_allowlist_sample`), in debug and release. Untrusted hosts are rejected according to AndroidX policy. Review Google's [host-validation guidance](https://developer.android.com/reference/androidx/car/app/validation/HostValidator) and test your actual approved host before distribution. No Dart bypass is exposed.
 
 ## Usage
 
